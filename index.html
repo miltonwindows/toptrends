@@ -23,7 +23,7 @@
                         const trends = jsonData.trends || []; // Ajuste conforme a estrutura real dos dados
 
                         const trendsList = document.getElementById('trends-list');
-                        trends.slice(0, 20).forEach(trend => { // Exibindo até 20 trends
+                        trends.slice(0, 10).forEach(trend => { // Exibindo até 20 trends
                             const listItem = document.createElement('li');
                             listItem.textContent = `${trend.title} - ${trend.formattedTraffic} pesquisas`; 
                             trendsList.appendChild(listItem);
