@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Trends</title>
+</head>
+<body>
+    <h1>Top 5 Google Trends</h1>
+    <ul id="trends-list"></ul>
+
+    <script>
+        async function fetchGoogleTrends() {
+            // Dados simulados para teste
+            const simulatedTrends = [
+                { title: { query: 'Trend 1' } },
+                { title: { query: 'Trend 2' } },
+                { title: { query: 'Trend 3' } },
+                { title: { query: 'Trend 4' } },
+                { title: { query: 'Trend 5' } }
+            ];
+
+            const trendsList = document.getElementById('trends-list');
+            simulatedTrends.forEach(trend => {
+                const listItem = document.createElement('li');
+                listItem.textContent = trend.title.query;
+                trendsList.appendChild(listItem);
+            });
+        }
+
+        fetchGoogleTrends();
+    </script>
+</body>
+</html>
