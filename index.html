@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Trends</title>
+</head>
+<body>
+    <h1>Top 5 Google Trends</h1>
+    <ul id="trends-list"></ul>
+
+    <script>
+        async function fetchGoogleTrends() {
+            const data = JSON.stringify({
+                keywords: ['Brazil'],
+                start: '2020-05-01T00:43:37+0100',
+                country: '',
+                region: '',
+                category: '',
+                gprop: ''
+            });
+
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+
+            xhr.addEventListener('readystatechange', function () {
+                if (this.readyState === this.DONE) {
+                    if (this.status === 200) {
+                        try {
+                            const jsonData = JSON.parse(this.responseText);
+                            console.log('Dados JSON:', jsonData);
+
+                            const trends = jsonData.topics || [];
+                            const trendsList = document.getElementById('trends-list');
+
+                            trends.slice(0, 5).forEach(trend => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = trend.title || 'Sem título';
+                                trendsList.appendChild(listItem);
+                            });
+                        } catch (error) {
+                            console.error('Erro ao processar a resposta:', error);
+                        }
+                    } else {
+                        console.error('Erro na solicitação:', this.status, this.statusText);
+                    }
+                }
+            });
+
+            xhr.open('POST', 'https://trendly.p.rapidapi.com/topics');
+            xhr.setRequestHeader('x-rapidapi-key', 'ceaa98bd7emshac58c501dda411bp123c61jsn5cb8a23d6ff3');
+            xhr.setRequestHeader('x-rapidapi-host', 'trendly.p.rapidapi.com');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.send(data);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGoogleTrends();
+        });
+
+        // Recarregar a página a cada 5 minutos
+        setInterval(() => {
+            location.reload();
+        }, 300000); // 5 minutos
+    </script>
+</body>
+</html>
