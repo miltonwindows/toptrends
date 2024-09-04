@@ -10,28 +10,32 @@
     <ul id="trends-list"></ul>
 
     <script>
-        async function fetchGoogleTrends() {
-            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-            const apiUrl = 'https://trends.google.com/trends/api/dailytrends?geo=US&hl=en';
+    async function fetchGoogleTrends() {
+        // Dados simulados para teste
+        const simulatedTrends = [
+            { title: { query: 'Trend 1' } },
+            { title: { query: 'Trend 2' } },
+            { title: { query: 'Trend 3' } },
+            { title: { query: 'Trend 4' } },
+            { title: { query: 'Trend 5' } }
+        ];
 
-            try {
-                const response = await fetch(proxyUrl + apiUrl);
-                const text = await response.text();
-                const jsonData = JSON.parse(text.slice(5)); // remove a parte inicial que não é JSON
-                const trends = jsonData.default.trendingSearchesDays[0].trendingSearches;
+        const trendsList = document.getElementById('trends-list');
+        simulatedTrends.forEach(trend => {
+            const listItem = document.createElement('li');
+            listItem.textContent = trend.title.query;
+            trendsList.appendChild(listItem);
+        });
+    }
 
-                const trendsList = document.getElementById('trends-list');
-                trends.slice(0, 5).forEach(trend => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = trend.title.query;
-                    trendsList.appendChild(listItem);
-                });
-            } catch (error) {
-                console.error('Erro ao buscar tendências:', error);
-            }
-        }
-
+    document.addEventListener('DOMContentLoaded', () => {
         fetchGoogleTrends();
+    });
+
+    // Recarregar a página a cada 5 minutos
+    setInterval(() => {
+        location.reload();
+    }, 300000); // 5 minutos
     </script>
 </body>
 </html>
