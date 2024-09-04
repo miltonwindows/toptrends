@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Trends</title>
+</head>
+<body>
+    <h1>Top 5 Google Trends</h1>
+    <ul id="trends-list"></ul>
+
+    <script>
+        async function fetchGoogleTrends() {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const apiUrl = 'https://trends.google.com/trends/api/dailytrends?geo=US&hl=en';
+
+            try {
+                const response = await fetch(proxyUrl + apiUrl);
+                const text = await response.text();
+                const jsonData = JSON.parse(text.slice(5)); // remove a parte inicial que não é JSON
+                const trends = jsonData.default.trendingSearchesDays[0].trendingSearches;
+
+                const trendsList = document.getElementById('trends-list');
+                trends.slice(0, 5).forEach(trend => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = trend.title.query;
+                    trendsList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Erro ao buscar tendências:', error);
+            }
+        }
+
+        fetchGoogleTrends();
+    </script>
+</body>
+</html>
